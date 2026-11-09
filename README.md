@@ -10,7 +10,7 @@
 
 - **Binôme :**
   - **Étudiant 1 :** [Abid Abderrahmane] — N° Apogée : [21003567]
-  - **Étudiant 2 :** [Ayoub Abdedaim] — N° Apogée : [XXXXXXXX]
+  - **Étudiant 2 :** [Ayoub Abdedaim] — N° Apogée : [20005069]
 - **Variante attribuée :** **B03 — XLF (Financial Select Sector SPDR Fund)**
 - **Benchmark commun :** **SPY (SPDR S&P 500 ETF Trust)**
 - **Univers d'investissement :** Long / Cash exclusif (Pas de vente à découvert, pas d'effet de levier)
@@ -44,13 +44,13 @@ Le système implémente un parcours séquentiel continu sans biais d'anticipatio
        +-------------------------------------------------------------+
        |                  01. MARKET DATA & AUDIT                    |
        |  Collecte yfinance (XLF & SPY) | Snapshot local Parquet/CSV |
-       |  Contrôles intégrité (OHLCV, horodatage, rendements log)   |
+       |  Contrôles intégrité (OHLCV, horodatage, rendements log)    |
        +------------------------------+------------------------------+
                                       |
                                       v
        +-------------------------------------------------------------+
        |                   02. MODEL LABORATORY                      |
-       |  Baselines (Naïf, MM) | Économétrie (ARIMA vs SARIMAX SPY) |
+       |  Baselines (Naïf, MM) | Économétrie (ARIMA vs SARIMAX SPY)  |
        |  Machine Learning (Ridge, RF/Boosting) | Deep Learning (MLP)|
        +------------------------------+------------------------------+
                                       |
@@ -64,14 +64,14 @@ Le système implémente un parcours séquentiel continu sans biais d'anticipatio
                                       v
        +-------------------------------------------------------------+
        |                   04. TRADING STRATEGY                      |
-       |  Règle décisionnelle : Signal de moyenne filtré par le risque|
+       |  Règle décisionnelle: Signal de moyenne filtré par le risque|
        |  Dimensionnement de position (Position Sizing & Cash)       |
        +------------------------------+------------------------------+
                                       |
                                       v
        +-------------------------------------------------------------+
        |                      05. BACKTESTING                        |
-       |  Simulation nette (frais 0.05% + slippage 0.05% = 0.10%)   |
+       |  Simulation nette (frais 0.05% + slippage 0.05% = 0.10%)    |
        |  Courbe de richesse | Drawdown max | Sharpe | Buy & Hold    |
        +------------------------------+------------------------------+
                                       |
@@ -79,6 +79,6 @@ Le système implémente un parcours séquentiel continu sans biais d'anticipatio
        +-------------------------------------------------------------+
        |                    06. PAPER TRADING                        |
        |  Simulation sur 5 séances réelles out-of-sample             |
-       |  Journal de bord exportable | Mode DEMO hors-ligne         |
+       |  Journal de bord exportable | Mode DEMO hors-ligne          |
        +-------------------------------------------------------------+
 ```
