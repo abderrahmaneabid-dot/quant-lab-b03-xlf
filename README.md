@@ -82,3 +82,46 @@ Le système implémente un parcours séquentiel continu sans biais d'anticipatio
        |  Journal de bord exportable | Mode DEMO hors-ligne          |
        +-------------------------------------------------------------+
 ```
+
+## 📊 Benchmarks de Référence
+
+Pour évaluer objectivement la valeur ajoutée de notre approche (Variante B03 : **XLF** conditionné par **$SPY_{t-1}$**), nos résultats sont systématiquement comparés à trois niveaux de benchmarks :
+
+1. **Benchmark de Marché :**
+   * **SPY (S&P 500 ETF)** : Indice de référence macroéconomique du marché américain.
+   * **Buy-and-Hold (XLF)** : Stratégie passive d'achat et de conservation sur l'ETF XLF, servant de référence minimale pour le backtesting (net de frais de 0,10 %).
+2. **Benchmarks de Modèles (Baselines - D03) :**
+   * **Modèle Naïf (Persistance / Marche aléatoire)** : $\hat{r}_t = r_{t-1}$ et $\hat{r}_t = 0$.
+   * **Moyenne Mobile (Rolling Mean)** : Prévision basée sur la moyenne glissante des rendements passés (fenêtres de 5 et 20 jours).
+   * **ARIMA (Univarié sur XLF)** : Modèle autonome servant de référence directe pour mesurer l'apport réel de la variable exogène $SPY_{t-1}$ dans **SARIMAX**.
+3. **Critères de Comparaison :**
+   * **Statistiques / Prévision** : AIC, BIC, RMSE hors échantillon (*out-of-sample*), test de Ljung-Box sur les résidus.
+   * **Financiers / Risque** : Rendement cumulé, Ratio de Sharpe, Maximum Drawdown, VaR (99 %) et Expected Shortfall (ES).
+
+---
+
+## 👥 Répartition des Tâches (Projet Complet)
+
+Le travail est réparti de manière équilibrée sur l'ensemble du cycle de vie du projet (Livrables D01 à D06), avec un suivi collaboratif via Git/GitHub (branches dédiées et Pull Requests) :
+
+| Phase / Livrable | Abderrahmane Abid | Ayoub Abdedaim |
+| :--- | :--- | :--- |
+| **D01 : Cadrage & Git** | Initialisation du repo, arborescence officielle, `requirements.txt`, documentation `README.md`. | Validation du cadrage B03, configuration de l'environnement, gestion des branches Git. |
+| **D02 : Données & Audit** | Script d'ingestion `src/data.py` (`yfinance`, snapshot Parquet, gestion réseau) et `asserts` de qualité. | Feature engineering `src/features.py` (Log Returns, décalage $SPY_{t-1}$ sans look-ahead bias) et `data/README.md`. |
+| **D03 : Modèles de Moyenne** | Tests de stationnarité (ADF/KPSS), implémentation des Baselines (Naïf, Moyenne Mobile). | Calibration **ARIMA** vs **SARIMAX ($SPY_{t-1}$)**, évaluation AIC/BIC/RMSE et diagnostic Ljung-Box. |
+| **D04 : Risque & Volatilité** | Modélisation **GARCH(1,1)** sur les résidus et détection du *Volatility Clustering*. | Calcul et backtesting de la **VaR (99 %)** et de l'**Expected Shortfall (ES)**. |
+| **D05 : Stratégie & Backtest** | Règles de décision (Signaux Achat/Cash combinant SARIMAX + GARCH) et moteur de Backtesting (frais 0,10 %). | Comparaison vs *Buy-and-Hold*, métriques de performance (Sharpe, Drawdown) et module **Paper Trading**. |
+| **D06 : App Streamlit & Soutenance** | Intégration des modules `01-Market Data`, `03-Risk Management` et `05-Backtesting` dans Streamlit. | Intégration des modules `02-Model Lab`, `04-Trading Strategy` et `06-Paper Trading`, rapport final. |
+
+---
+
+## 🤖 Transparence & Usage des LLMs
+
+Dans une démarche de transparence académique, nous documentons l'assistance d'outils d'IA générative utilisés au cours du projet :
+
+* **Modèle utilisé :** **Gemini** (Google).
+* **Périmètre d'utilisation :**
+  * Vulgarisation et approfondissement des concepts théoriques du cours (stationnarité, ARIMA/SARIMAX, GARCH, look-ahead bias).
+  * Aide à la structuration modulaire du code Python et au débogage technique (gestion des timeouts réseau `yfinance`, configuration d'environnement Windows/VS Code).
+  * Assistance à la structuration de la documentation (`README.md`) et préparation des supports de suivi.
+* **Validation humaine :** L'ensemble du code exécuté, les choix d'hyperparamètres, les tests statistiques, ainsi que l'interprétation financière des résultats sont intégralement vérifiés, testés et assumés par le binôme.
